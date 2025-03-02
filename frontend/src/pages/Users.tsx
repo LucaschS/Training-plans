@@ -1,42 +1,24 @@
-import { useEffect, useState } from "react";
-
-type UsersPageData = {
-  users: {
-    name: string;
-    surname: string;
-    email: string;
-    phone: string;
-  }[];
-};
+import { useLoaderData } from "react-router-dom";
 
 function Users() {
-  const [error, setError] = useState<Error | null>(null);
-  const [users, setUsers] = useState<UsersPageData | null>(null);
-  console.log(users, " users");
+  const users = useLoaderData();
+  console.log(users, "users");
 
-  console.log(error, " error");
+  return <h1>One user</h1>;
+}
 
-  useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const response = await fetch("http://localhost:8080/users");
-        const resData: unknown = await response.json();
+export async function loader() {
+  const response = await fetch("http://localhost:8080/users");
 
-        // console.log(resData, "resData");
-        setUsers(resData as UsersPageData);
+  console.log(response, "resData");
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch user");
-        }
-      } catch (error: unknown) {
-        setError(error as Error);
-      }
-    }
-
-    fetchUsers();
-  }, []);
-
-  return <>{/* <h1>{users?.users[0].name}</h1> */}</>;
+  if (!response.ok) {
+    throw new Response(JSON.stringify({ message: "Could not post" }), {
+      status: 500,
+    });
+  } else {
+    return response;
+  }
 }
 
 export default Users;

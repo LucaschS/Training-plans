@@ -5,14 +5,19 @@ import express from "express";
 import bodyParser, { json, urlencoded } from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
+import session from "express-session";
+
 import {
   postAddUserRouter,
   getEditUserRouter,
   postEditUserRouter,
   postDeleteUserRouter,
+  getUserRouter,
 } from "./routes/admin";
-import { UserRouter } from "./routes/users";
 
+import { postLoginRouter, getLoginRouter } from "./routes/auth";
+
+import { UserRouter } from "./routes/users";
 const app = express();
 
 app.use(cors({ origin: true, credentials: false }));
@@ -31,13 +36,24 @@ declare global {
     status?: number;
   }
 }
+app.use(
+  session({
+    secret: "my secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 60000 },
+  })
+);
 
 app.use(UserRouter);
+
 app.use(postAddUserRouter);
 app.use(getEditUserRouter);
 app.use(postEditUserRouter);
 app.use(postDeleteUserRouter);
-
+app.use(getUserRouter);
+app.use(postLoginRouter);
+app.use(getLoginRouter);
 const start = async () => {
   if (!process.env.MONGO_URI) throw new Error("MONGO_URI is required!");
 

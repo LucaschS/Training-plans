@@ -5,6 +5,7 @@ import {
   getEditUser,
   postEditUser,
   postDeleteUser,
+  getUser,
 } from "../controllers/admin";
 
 const router = express.Router();
@@ -25,3 +26,5 @@ export const postDeleteUserRouter = router.delete(
   "/admin/delete-user",
   postDeleteUser
 );
+
+export const getUserRouter = router.get("/admin/:userId", getUser);

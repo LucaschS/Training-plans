@@ -80,3 +80,16 @@ export const postDeleteUser = async (
   await User.findByIdAndDelete(usrId);
   res.redirect("/users");
 };
+
+export const getUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const usrId = req.params.userId;
+  console.log(usrId);
+  try {
+    const user = await User.findById(usrId);
+    console.log(user);
+  } catch (err: unknown) {}
+};

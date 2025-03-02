@@ -1,43 +1,30 @@
-import { type FormEvent, useEffect } from "react";
+import { ActionFunctionArgs } from "react-router-dom";
+import AddUserForm from "../components/AddUserForm";
 
 function AddUser() {
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(formData);
-    console.log(data, "data");
-
-    const fetchedData = await fetch('http://localhost:8080/admin/add-user', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-  };
-
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <p>
-        <label htmlFor="name"></label>
-        <input type="text" id="name" name="name" />
-      </p>
-      <p>
-        <label htmlFor="surname"></label>
-        <input type="text" id="surname" name="surname" />
-      </p>
-      <p>
-        <label htmlFor="email"></label>
-        <input type="text" id="email" name="email" />
-      </p>
-      <p>
-        <label htmlFor="phone"></label>
-        <input type="text" id="phone" name="phone" />
-      </p>
-      <button type="submit">
-        Add user
-      </button>
-    </form>
-  );
+  return <AddUserForm />;
 }
 
+export async function action({ request, params }: ActionFunctionArgs) {
+  const data = await request.formData();
+  const addUserData = {
+    name: data.get("name"),
+    surname: data.get("surname"),
+    email: data.get("email"),
+    phone: data.get("phone"),
+  };
+  console.log(addUserData);
+  const response = await fetch("http://localhost:8080/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(addUserData),
+  });
+  if (!response.ok) {
+    throw new Response(JSON.stringify({ message: "Could not post" }), {
+      status: 500,
+    });
+  }
+}
 export default AddUser;
