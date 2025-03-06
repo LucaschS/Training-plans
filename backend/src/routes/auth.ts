@@ -4,6 +4,7 @@ import { getLogin, postLogin } from "../controllers/auth";
 
 const router = express.Router();
 
-export const postLoginRouter = router.post("/login", postLogin);
+router.post("/login", postLogin);
+router.get("/login", getLogin);
 
-export const getLoginRouter = router.get("/login", getLogin);
+export const loginRouter = router;

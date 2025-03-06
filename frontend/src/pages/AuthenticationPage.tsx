@@ -1,5 +1,5 @@
 import AuthForm from "../components/AuthForm";
-import { Link, type ActionFunctionArgs } from "react-router";
+import { Link, redirect, type ActionFunctionArgs } from "react-router";
 
 function AuthenticationPage() {
   return (
@@ -19,9 +19,11 @@ export async function action({ request, params }: ActionFunctionArgs) {
   console.log(authData);
   const response = await fetch("http://localhost:8080/login", {
     method: "POST",
+
     headers: {
       "Content-Type": "application/json",
     },
+    cache: "no-cache",
     body: JSON.stringify(authData),
   });
 
@@ -37,6 +39,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
       }
     );
   }
+  // return redirect("/users");
 }
 
 export default AuthenticationPage;

@@ -15,7 +15,7 @@ import {
   getUserRouter,
 } from "./routes/admin";
 
-import { postLoginRouter, getLoginRouter } from "./routes/auth";
+import { loginRouter } from "./routes/auth";
 
 import { UserRouter } from "./routes/users";
 const app = express();
@@ -36,12 +36,13 @@ declare global {
     status?: number;
   }
 }
+
 app.use(
   session({
     secret: "my secret",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60000 },
+    cookie: { httpOnly: false, maxAge: 60000 },
   })
 );
 
@@ -52,8 +53,8 @@ app.use(getEditUserRouter);
 app.use(postEditUserRouter);
 app.use(postDeleteUserRouter);
 app.use(getUserRouter);
-app.use(postLoginRouter);
-app.use(getLoginRouter);
+app.use(loginRouter);
+
 const start = async () => {
   if (!process.env.MONGO_URI) throw new Error("MONGO_URI is required!");
 

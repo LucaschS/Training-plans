@@ -3,18 +3,16 @@ import { Response, Request, NextFunction } from "express";
 declare module "express-session" {
   interface SessionData {
     isLoggedIn: boolean | undefined;
+    user: string;
   }
 }
 
 export const getLogin = (req: Request, res: Response, next: NextFunction) => {
-  // console.log("d");
-  req.session;
-  console.log(req.session, "d");
+  console.log(req.session.user, "user");
+  res.send("ok");
 };
 
 export const postLogin = (req: Request, res: Response, next: NextFunction) => {
-  req.session.isLoggedIn = true;
-  req.session.save();
-  // res.redirect("/");
-  // console.log(req.session, "a");
+  req.session.user = "user";
+  console.log(req.session.user, "user");
 };
