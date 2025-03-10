@@ -41,8 +41,8 @@ app.use(
   session({
     secret: "my secret",
     resave: false,
-    saveUninitialized: false,
-    cookie: { httpOnly: false, maxAge: 60000 },
+    saveUninitialized: true,
+    // cookie: { httpOnly: false, maxAge: 60000 },
   })
 );
 
@@ -52,8 +52,9 @@ app.use(postAddUserRouter);
 app.use(getEditUserRouter);
 app.use(postEditUserRouter);
 app.use(postDeleteUserRouter);
-app.use(getUserRouter);
 app.use(loginRouter);
+app.use(getUserRouter);
+
 
 const start = async () => {
   if (!process.env.MONGO_URI) throw new Error("MONGO_URI is required!");

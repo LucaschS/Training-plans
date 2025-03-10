@@ -2,7 +2,7 @@ import { Response, Request, NextFunction } from "express";
 import User from "../models/user";
 
 const getUsers = async (req: Request, res: Response, next: NextFunction) => {
-  // console.log(req.session, "d");
+  console.log(req.session, "d");
 
   try {
     const users = await User.find();

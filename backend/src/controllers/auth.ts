@@ -8,7 +8,7 @@ declare module "express-session" {
 }
 
 export const getLogin = (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.session.user, "user");
+  console.log(req.session, "user");
   res.send("ok");
 };
 
