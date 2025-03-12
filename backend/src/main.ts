@@ -7,20 +7,22 @@ import mongoose from "mongoose";
 import cors from "cors";
 import session from "express-session";
 
-import {
-  postAddUserRouter,
-  getEditUserRouter,
-  postEditUserRouter,
-  postDeleteUserRouter,
-  getUserRouter,
-} from "./routes/admin";
+// import {
+//   postAddUserRouter,
+//   getEditUserRouter,
+//   postEditUserRouter,
+//   postDeleteUserRouter,
+//   getUserRouter,
+// } from "./routes/admin";
 
 import { loginRouter } from "./routes/auth";
 
-import { UserRouter } from "./routes/users";
+// import { UserRouter } from "./routes/users";
+
 const app = express();
 
 app.use(cors({ origin: true, credentials: false }));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(
@@ -36,23 +38,19 @@ declare global {
     status?: number;
   }
 }
+let cookieParser = require("cookie-parser");
+app.use(cookieParser());
+app.set("trust proxy", 1); // Trust first proxy
 
 app.use(
   session({
-    secret: "my secret",
+    secret: "your-secret-key",
     resave: false,
-    saveUninitialized: false,
-    cookie: { httpOnly: false, maxAge: 60000 },
+    saveUninitialized: true,
+    cookie: { secure: true }, // Set to true if you are using HTTPS
   })
 );
 
-app.use(UserRouter);
-
-app.use(postAddUserRouter);
-app.use(getEditUserRouter);
-app.use(postEditUserRouter);
-app.use(postDeleteUserRouter);
-app.use(getUserRouter);
 app.use(loginRouter);
 
 const start = async () => {

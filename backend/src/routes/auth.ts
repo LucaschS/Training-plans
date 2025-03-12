@@ -1,10 +1,10 @@
 import express from "express";
 
-import { getLogin, postLogin } from "../controllers/auth";
+const authController = require("../controllers/auth");
 
 const router = express.Router();
 
-router.post("/login", postLogin);
-router.get("/login", getLogin);
+router.post("/login", authController.postLogin);
+router.get("/login", authController.getLogin);
 
 export const loginRouter = router;

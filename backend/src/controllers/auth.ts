@@ -7,12 +7,15 @@ declare module "express-session" {
   }
 }
 
-export const getLogin = (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.session.user, "user");
-  res.send("ok");
+exports.postLogin = (req: Request, res: Response, next: NextFunction) => {
+  req.session.isLoggedIn = true;
+
+  console.log(req.session.isLoggedIn, " postlogin");
+
+  res.redirect("/");
 };
 
-export const postLogin = (req: Request, res: Response, next: NextFunction) => {
-  req.session.user = "user";
-  console.log(req.session.user, "user");
+exports.getLogin = (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.session.isLoggedIn, "getLogin");
+  res.redirect("/");
 };
