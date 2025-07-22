@@ -18,10 +18,11 @@ import {
 import { loginRouter } from "./routes/auth";
 
 import { UserRouter } from "./routes/users";
+
 const app = express();
 
 app.use(cors({ origin: true, credentials: false }));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
   urlencoded({
@@ -29,7 +30,7 @@ app.use(
   })
 );
 
-app.use(json());
+app.use(express.json());
 
 declare global {
   interface CustomError extends Error {

@@ -12,14 +12,14 @@ export const postAddUser = async (
     const surname: string = req.body.surname;
     const email: string = req.body.email;
     const phone: string = req.body.phone;
-    console.log(name, "name");
     const user = new User({
       name: name,
       surname: surname,
       email: email,
       phone: phone,
     });
-    console.log(user, "user");
+    
+    console.log(user, "backend");
 
     await user.save();
   } catch (error: unknown) {
@@ -58,7 +58,6 @@ export const postEditUser = async (
   const surname = req.body.surname;
   const email = req.body.email;
   const phone = req.body.phone;
-  console.log(usrId, name);
   try {
     const user = await User.findByIdAndUpdate(usrId, {
       name: name,
@@ -67,7 +66,6 @@ export const postEditUser = async (
       phone: phone,
     });
 
-    console.log(user);
   } catch (error) {}
 };
 
@@ -87,9 +85,7 @@ export const getUser = async (
   next: NextFunction
 ) => {
   const usrId = req.params.userId;
-  console.log(usrId);
   try {
     const user = await User.findById(usrId);
-    console.log(user);
   } catch (err: unknown) {}
 };

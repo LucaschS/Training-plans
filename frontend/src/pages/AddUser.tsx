@@ -13,7 +13,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     email: data.get("email"),
     phone: data.get("phone"),
   };
-  console.log(addUserData);
+  console.log(addUserData, 'frontend');
   const response = await fetch("http://localhost:8080/login", {
     method: "POST",
     headers: {

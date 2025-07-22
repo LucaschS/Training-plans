@@ -10,7 +10,6 @@ function Users() {
 export async function loader() {
   const response = await fetch("http://localhost:8080/users");
 
-  console.log(response, "resData");
 
   if (!response.ok) {
     throw new Response(JSON.stringify({ message: "Could not post" }), {
